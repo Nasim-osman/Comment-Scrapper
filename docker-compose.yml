@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  omnisCrape:
+    build: .
+    container_name: omniscrape_app
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./exports:/app/exports
+      - ./backend/sessions:/app/backend/sessions
+    restart: unless-stopped
+    environment:
+      - PORT=8000
+

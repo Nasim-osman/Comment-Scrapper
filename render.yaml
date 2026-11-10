@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: omniscrape
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: PLAYWRIGHT_BROWSERS_PATH
+        value: /ms-playwright

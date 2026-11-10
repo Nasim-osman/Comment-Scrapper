@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OmniScrape | Multi-Platform Social Media Comment Scraper for Research & Thesis</title>
+  <meta name="description" content="Extract comments from YouTube, Reddit, Instagram, and Facebook for academic thesis, NLP, and sentiment analysis with one-click Excel and CSV export.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-background">
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
+  </div>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo-area">
+        <div class="logo-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+          </svg>
+        </div>
+        <div>
+          <h1 class="logo-title">OmniScrape <span>Research Hub</span></h1>
+          <p class="logo-subtitle">Multi-Platform Comment Extractor for Thesis & NLP Analysis</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="connection-status" id="connection-status">
+          <span class="status-dot"></span>
+          <span class="status-label">Server Ready</span>
+        </div>
+        <button class="btn btn-secondary" id="btn-open-sessions" title="Manage Social Media Logins">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          Session & Accounts
+        </button>
+      </div>
+    </header>
+
+    <!-- Platform Selection Cards -->
+    <section class="platform-section">
+      <div class="platform-cards" id="platform-selector">
+        <div class="platform-card active" data-platform="auto" id="card-auto">
+          <div class="platform-icon auto-icon">⚡</div>
+          <div class="platform-info">
+            <div class="platform-name">Auto Detect</div>
+            <div class="platform-desc">Paste any post URL</div>
+          </div>
+          <div class="card-indicator"></div>
+        </div>
+
+        <div class="platform-card" data-platform="youtube" id="card-youtube">
+          <div class="platform-icon yt-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+          </div>
+          <div class="platform-info">
+            <div class="platform-name">YouTube</div>
+            <div class="platform-desc">High-speed no-limit</div>
+          </div>
+          <div class="card-indicator"></div>
+        </div>
+
+        <div class="platform-card" data-platform="reddit" id="card-reddit">
+          <div class="platform-icon reddit-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.703zM9.25 12C8.56 12 8 12.56 8 13.25c0 .688.56 1.25 1.25 1.25.688 0 1.25-.562 1.25-1.25 0-.69-.562-1.25-1.25-1.25zm5.5 0c-.69 0-1.25.56-1.25 1.25 0 .688.56 1.25 1.25 1.25.688 0 1.25-.562 1.25-1.25 0-.69-.562-1.25-1.25-1.25zm-5.465 4.316a.417.417 0 0 0-.154.568c.552.923 1.696 1.48 2.869 1.48 1.173 0 2.317-.557 2.869-1.48a.417.417 0 0 0-.722-.416c-.407.68-1.263 1.08-2.147 1.08s-1.74-.4-2.147-1.08a.417.417 0 0 0-.568-.152z"/>
+            </svg>
+          </div>
+          <div class="platform-info">
+            <div class="platform-name">Reddit</div>
+            <div class="platform-desc">Threads & scores</div>
+          </div>
+          <div class="card-indicator"></div>
+        </div>
+
+        <div class="platform-card" data-platform="instagram" id="card-instagram">
+          <div class="platform-icon ig-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a3.999 3.999 0 1 1 0-7.998 3.999 3.999 0 0 1 0 7.998zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+            </svg>
+          </div>
+          <div class="platform-info">
+            <div class="platform-name">Instagram</div>
+            <div class="platform-desc">Reels & Posts</div>
+          </div>
+          <div class="card-indicator"></div>
+        </div>
+
+        <div class="platform-card" data-platform="facebook" id="card-facebook">
+          <div class="platform-icon fb-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+          </div>
+          <div class="platform-info">
+            <div class="platform-name">Facebook</div>
+            <div class="platform-desc">Public posts & pages</div>
+          </div>
+          <div class="card-indicator"></div>
+        </div>
+
+        <div class="platform-card" data-platform="twitter" id="card-twitter">
+          <div class="platform-icon tw-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </div>
+          <div class="platform-info">
+            <div class="platform-name">Twitter / X</div>
+            <div class="platform-desc">Tweets & thread replies</div>
+          </div>
+          <div class="card-indicator"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Scraping Console -->
+    <main class="main-grid">
+      <!-- Left Column: Input and Parameters -->
+      <section class="glass-card scraper-control-card">
+        <div class="card-header">
+          <h2 class="card-title">
+            <span class="step-badge">1</span>
+            Target Post & Dataset Parameters
+          </h2>
+          <div class="url-mode-toggle">
+            <button class="mode-btn active" id="btn-mode-single">Single URL</button>
+            <button class="mode-btn" id="btn-mode-batch">Batch URLs</button>
+          </div>
+        </div>
+
+        <div class="form-group" id="group-single-url">
+          <label for="input-url" class="form-label">
+            Target Post / Video URL
+            <span class="detected-badge" id="detected-platform-badge" style="display:none;">Detected</span>
+          </label>
+          <div class="input-with-icon">
+            <input type="url" id="input-url" class="form-input" placeholder="https://x.com/.../status/... or youtube.com/watch?v=..." autocomplete="off">
+            <button class="input-clear-btn" id="btn-clear-url" title="Clear">✕</button>
+          </div>
+          <p class="input-hint">Paste any link from YouTube, Twitter / X, Reddit, Instagram, or Facebook. Auto-detect will identify it.</p>
+          <div class="meta-login-notice" id="meta-login-notice" style="display:none;">
+            <span class="notice-icon">🔐</span>
+            <div>
+              <strong>Facebook & Instagram Authentication:</strong> Meta restricts guest viewing of comments. If 0 comments return, click <button type="button" class="link-btn" id="btn-quick-session">Session & Accounts</button> at the top right to log in once.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group" id="group-batch-url" style="display:none;">
+          <label for="input-batch-urls" class="form-label">Multiple URLs (One per line)</label>
+          <textarea id="input-batch-urls" class="form-textarea" rows="4" placeholder="https://www.youtube.com/watch?v=...&#10;https://www.reddit.com/r/...&#10;https://www.instagram.com/p/..."></textarea>
+          <p class="input-hint">Add as many URLs as needed. They will be scraped sequentially into one combined dataset.</p>
+        </div>
+
+        <!-- Parameters Grid -->
+        <div class="params-grid">
+          <div class="param-box">
+            <label for="input-max-comments" class="param-label">Max Comments (per URL)</label>
+            <input type="number" id="input-max-comments" class="form-input" value="200" min="1" max="10000" step="50">
+            <span class="param-sub">Use 0 or high number for all</span>
+          </div>
+
+          <div class="param-box">
+            <label for="input-min-length" class="param-label">Min Character Length</label>
+            <input type="number" id="input-min-length" class="form-input" value="2" min="1" max="200">
+            <span class="param-sub">Filters out 1-char spam</span>
+          </div>
+        </div>
+
+        <!-- Thesis / NLP Options -->
+        <div class="options-group">
+          <div class="options-title">Thesis & NLP Preprocessing Options</div>
+          
+          <label class="toggle-control">
+            <input type="checkbox" id="check-clean-nlp" checked>
+            <span class="toggle-slider"></span>
+            <span class="toggle-text">
+              <strong>Clean Text for NLP</strong>
+              <small>Removes URLs, normalizes Bengali Unicode, strips control characters</small>
+            </span>
+          </label>
+
+          <label class="toggle-control">
+            <input type="checkbox" id="check-include-replies" checked>
+            <span class="toggle-slider"></span>
+            <span class="toggle-text">
+              <strong>Include Nested Replies</strong>
+              <small>Extract reply comments and threaded discussions</small>
+            </span>
+          </label>
+
+          <label class="toggle-control">
+            <input type="checkbox" id="check-bangla-only">
+            <span class="toggle-slider"></span>
+            <span class="toggle-text">
+              <strong>Bangla Comments Only (বাংলা)</strong>
+              <small>Filters and retains only comments containing Bengali script</small>
+            </span>
+          </label>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons-row">
+          <button class="btn btn-primary" id="btn-start-scrape">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            Start Scraping
+          </button>
+          <button class="btn btn-danger" id="btn-stop-scrape" disabled>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <rect x="6" y="6" width="12" height="12"></rect>
+            </svg>
+            Stop
+          </button>
+        </div>
+
+        <!-- Scraping Progress Bar -->
+        <div class="progress-container" id="progress-container" style="display: none;">
+          <div class="progress-info">
+            <span class="progress-status-text" id="progress-status-text">Connecting to target...</span>
+            <span class="progress-percent" id="progress-percent">0%</span>
+          </div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" id="progress-bar-fill" style="width: 0%;"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Live Terminal & Realtime Summary -->
+      <section class="glass-card terminal-card">
+        <div class="card-header">
+          <h2 class="card-title">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+            Live Extraction Terminal
+          </h2>
+          <div class="terminal-actions">
+            <span class="comment-count-badge" id="terminal-count-badge">0 Comments Extracted</span>
+            <button class="btn-icon" id="btn-clear-terminal" title="Clear logs">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="terminal-output" id="terminal-logs">
+          <div class="log-line system">[System] Ready to scrape comments from YouTube, Reddit, Instagram, or Facebook.</div>
+          <div class="log-line info">[Tip] Enter a post URL on the left and click "Start Scraping".</div>
+          <div class="log-line info">[Excel Ready] All CSV & Excel exports use UTF-8 BOM encoding for full Bengali script support.</div>
+        </div>
+
+        <!-- Quick Stats Banner -->
+        <div class="stats-ribbon" id="stats-ribbon">
+          <div class="stat-pill">
+            <span class="stat-num" id="stat-total">0</span>
+            <span class="stat-name">Total Extracted</span>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-num text-bangla" id="stat-bangla">0</span>
+            <span class="stat-name">Bangla 🇧🇩</span>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-num text-english" id="stat-english">0</span>
+            <span class="stat-name">English 🇬🇧</span>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-num text-mixed" id="stat-mixed">0</span>
+            <span class="stat-name">Mixed/Banglish 🌐</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Dataset Preview & Export Section -->
+    <section class="glass-card dataset-section" id="dataset-section">
+      <div class="card-header flex-between">
+        <div>
+          <h2 class="card-title">
+            <span class="step-badge">2</span>
+            Dataset Explorer & Thesis Export
+          </h2>
+          <p class="card-subtitle">Preview scraped comments, filter by language, search keywords, and export to academic formats.</p>
+        </div>
+
+        <!-- Export Buttons -->
+        <div class="export-btn-group" id="export-buttons-group">
+          <button class="btn btn-export btn-xlsx" id="btn-export-excel" disabled>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <polygon points="10 12 14 18 10 18 14 12"></polygon>
+            </svg>
+            Download Excel (.xlsx)
+          </button>
+
+          <button class="btn btn-export btn-csv" id="btn-export-csv" disabled>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            Download CSV (Excel Ready)
+          </button>
+
+          <button class="btn btn-export btn-json" id="btn-export-json" disabled>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="16 18 22 12 16 6"></polyline>
+              <polyline points="8 6 2 12 8 18"></polyline>
+            </svg>
+            Download JSON
+          </button>
+        </div>
+      </div>
+
+      <!-- Filters & Search Toolbar -->
+      <div class="table-toolbar">
+        <div class="search-box">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="input-search-table" class="search-input" placeholder="Search in comments or authors...">
+        </div>
+
+        <div class="language-filter-group">
+          <span class="filter-label">Filter Language:</span>
+          <button class="lang-pill active" data-lang="all">All (<span id="pill-all-count">0</span>)</button>
+          <button class="lang-pill" data-lang="bn">Bangla 🇧🇩 (<span id="pill-bn-count">0</span>)</button>
+          <button class="lang-pill" data-lang="en">English 🇬🇧 (<span id="pill-en-count">0</span>)</button>
+          <button class="lang-pill" data-lang="mixed">Mixed/Banglish 🌐 (<span id="pill-mixed-count">0</span>)</button>
+        </div>
+      </div>
+
+      <!-- Table Container -->
+      <div class="table-responsive">
+        <table class="data-table" id="comments-table">
+          <thead>
+            <tr>
+              <th width="45">#</th>
+              <th width="120">Type</th>
+              <th width="160">Author</th>
+              <th>Comment</th>
+              <th width="150">Replying To</th>
+              <th width="75">Likes</th>
+              <th width="150">Published At</th>
+              <th width="85">Action</th>
+            </tr>
+          </thead>
+          <tbody id="comments-table-body">
+            <tr class="empty-row">
+              <td colspan="8">
+                <div class="empty-state">
+                  <div class="empty-icon">📊</div>
+                  <h3>No Comments Loaded Yet</h3>
+                  <p>Start a scraping job above to populate this interactive thesis dataset preview.</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="table-pagination" id="table-pagination" style="display: none;">
+        <span class="pagination-info" id="pagination-info">Showing 0-0 of 0</span>
+        <div class="pagination-buttons">
+          <button class="btn btn-sm" id="btn-page-prev" disabled>Previous</button>
+          <span class="page-number" id="page-current">Page 1</span>
+          <button class="btn btn-sm" id="btn-page-next" disabled>Next</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Thesis Research Guide Footer -->
+    <footer class="app-footer glass-card">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4>🎓 Thesis & Academic Research Notes</h4>
+          <p>This tool is designed to assist academic researchers, thesis students, and NLP practitioners in compiling multilingual social media datasets. Always follow ethical research guidelines, respect privacy, and anonymize user personal data in your final published thesis.</p>
+        </div>
+        <div class="footer-col">
+          <h4>⚡ Supported Output Features</h4>
+          <ul class="features-list">
+            <li><strong>UTF-8 BOM CSV:</strong> Opens in Microsoft Excel with 100% correct Bengali script.</li>
+            <li><strong>Formatted Excel:</strong> Styled headers, auto-fit columns, word-wrap enabled.</li>
+            <li><strong>Language Tags:</strong> Pre-classified as Bengali (bn), English (en), or Mixed.</li>
+            <li><strong>Text Normalizer:</strong> Zero-width characters & excessive whitespace cleaned.</li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Session & Accounts Modal -->
+  <div class="modal-backdrop" id="modal-sessions" style="display: none;">
+    <div class="modal-dialog glass-card">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          Account Sessions & Authentication
+        </h3>
+        <button class="modal-close-btn" id="btn-close-modal">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-intro">Meta platforms (Facebook & Instagram) require login to view full comment threads. You can connect your browser session once, and it will be saved for scraping.</p>
+
+        <!-- Facebook Session Card -->
+        <div class="session-box">
+          <div class="session-header">
+            <div class="session-title-wrap">
+              <span class="session-platform-badge fb">Facebook</span>
+              <span class="session-badge-status" id="fb-session-badge">Not Connected</span>
+            </div>
+          </div>
+          <p class="session-desc">Clicking below will open a visible Chromium browser window. Log in to Facebook there once, and your session will be saved automatically.</p>
+          <div class="session-actions">
+            <button class="btn btn-outline" id="btn-login-fb">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+              Open Browser to Log In (Facebook)
+            </button>
+            <button class="btn btn-sm btn-ghost" id="btn-toggle-fb-cookies">Paste Cookies</button>
+          </div>
+          <div class="manual-cookie-row" id="fb-cookie-input-row" style="display: none;">
+            <textarea id="input-fb-cookies" class="form-textarea" rows="2" placeholder="Paste c_user=...; xs=... or JSON cookies"></textarea>
+            <button class="btn btn-sm btn-secondary" id="btn-save-fb-cookies">Save Facebook Cookies</button>
+          </div>
+        </div>
+
+        <!-- Instagram Session Card -->
+        <div class="session-box">
+          <div class="session-header">
+            <div class="session-title-wrap">
+              <span class="session-platform-badge ig">Instagram</span>
+              <span class="session-badge-status" id="ig-session-badge">Not Connected</span>
+            </div>
+          </div>
+          <p class="session-desc">Open a browser window to log in to Instagram, or paste your `sessionid` cookie.</p>
+          <div class="session-actions">
+            <button class="btn btn-outline" id="btn-login-ig">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a3.999 3.999 0 1 1 0-7.998 3.999 3.999 0 0 1 0 7.998zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+              </svg>
+              Open Browser to Log In (Instagram)
+            </button>
+            <button class="btn btn-sm btn-ghost" id="btn-toggle-ig-cookies">Paste Cookies</button>
+          </div>
+          <div class="manual-cookie-row" id="ig-cookie-input-row" style="display: none;">
+            <textarea id="input-ig-cookies" class="form-textarea" rows="2" placeholder="Paste sessionid=... or JSON cookies"></textarea>
+            <button class="btn btn-sm btn-secondary" id="btn-save-ig-cookies">Save Instagram Cookies</button>
+          </div>
+        </div>
+
+        <!-- Twitter / X Session Card -->
+        <div class="session-box">
+          <div class="session-header">
+            <div class="session-title-wrap">
+              <span class="session-platform-badge tw">Twitter / X</span>
+              <span class="session-badge-status" id="twitter-session-badge">Not Connected</span>
+            </div>
+          </div>
+          <p class="session-desc">Open a browser window to log in to Twitter/X, or paste your `auth_token` cookies.</p>
+          <div class="session-actions">
+            <button class="btn btn-outline" id="btn-login-twitter">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+              Open Browser to Log In (Twitter / X)
+            </button>
+            <button class="btn btn-sm btn-ghost" id="btn-toggle-twitter-cookies">Paste Cookies</button>
+          </div>
+          <div class="manual-cookie-row" id="twitter-cookie-input-row" style="display: none;">
+            <textarea id="input-twitter-cookies" class="form-textarea" rows="2" placeholder="Paste auth_token=...; ct0=... or JSON cookies"></textarea>
+            <button class="btn btn-sm btn-secondary" id="btn-save-twitter-cookies">Save Twitter Cookies</button>
+          </div>
+        </div>
+
+        <!-- Optional Reddit API Card -->
+        <div class="session-box">
+          <div class="session-header">
+            <div class="session-title-wrap">
+              <span class="session-platform-badge reddit">Reddit API (Optional)</span>
+            </div>
+          </div>
+          <p class="session-desc">Reddit works out-of-the-box via browser automation. If you have an official Reddit App script, you can enter credentials here for higher speed.</p>
+          <div class="reddit-api-inputs">
+            <input type="text" id="input-reddit-client-id" class="form-input" placeholder="Reddit Client ID">
+            <input type="password" id="input-reddit-client-secret" class="form-input" placeholder="Reddit Client Secret">
+            <button class="btn btn-sm btn-secondary" id="btn-save-reddit-keys">Save Reddit Keys</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

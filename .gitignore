@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+
+# Project temp
+scratch/
+exports/
+*.xlsx
+*.csv
+
+# Sessions (DO NOT push login cookies to GitHub)
+backend/sessions/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Gemini / AGY
+.gemini/
